@@ -9,7 +9,7 @@ return [
         'reverb' => [
             'host' => env('REVERB_SERVER_HOST', '0.0.0.0'),
             'port' => env('REVERB_SERVER_PORT', 8080),
-            'hostname' => env('REVERB_HOST'),
+            'hostname' => env('REVERB_HOST', '127.0.0.1'),
             'options' => [
                 'tls' => [],
             ],
@@ -29,18 +29,18 @@ return [
 
         'apps' => [
             [
-                'key' => env('REVERB_APP_KEY'),
-                'secret' => env('REVERB_APP_SECRET'),
-                'app_id' => env('REVERB_APP_ID'),
+                'key' => 'my_app_key',  // ← HARDCODED
+                'secret' => 'qrstuvwxyz123456',  // ← HARDCODED
+                'app_id' => '123456',  // ← HARDCODED
                 'options' => [
-                    'host' => env('REVERB_HOST'),
-                    'port' => env('REVERB_PORT', 8080),
-                    'scheme' => env('REVERB_SCHEME', 'http'),
-                    'useTLS' => env('REVERB_SCHEME', 'http') === 'https',
+                    'host' => '127.0.0.1',  // ← HARDCODED
+                    'port' => 8080,  // ← HARDCODED
+                    'scheme' => 'http',  // ← HARDCODED
+                    'useTLS' => false,  // ← HARDCODED
                 ],
                 'allowed_origins' => ['*'],
-                'ping_interval' => env('REVERB_APP_PING_INTERVAL', 60),
-                'max_message_size' => env('REVERB_APP_MAX_MESSAGE_SIZE', 10000),
+                'ping_interval' => 60,
+                'max_message_size' => 10000,
             ],
         ],
 
