@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
@@ -13,15 +14,26 @@ Route::post('/activate-account', [InvitationController::class, 'activate']); // 
 
 // Rutas Protegidas
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) { return $request->user(); });
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     Route::get('/messages', [ChatController::class, 'fetchMessages']);
     Route::post('/messages', [ChatController::class, 'sendMessage']);
+
+    // Sesión
+    Route::post('/logout', function (Request $request) {
+        // Solo elimina el token actual (cierra sesión en este dispositivo)
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Sesión cerrada correctamente']);
+    });
+
+    // Cambiar contraseña (cierra sesión en todos los dispositivos)
+    Route::post('/cambiar-password', [AuthController::class, 'cambiarPassword']);
 
     // Rutas solo para Admins
     Route::middleware('admin')->group(function () {
         Route::post('/invite', [InvitationController::class, 'invite']);
         Route::post('/invite/resend', [InvitationController::class, 'resend']);
-
         Route::get('/admin/residentes', [AdminController::class, 'listarResidentes']);
         Route::get('/admin/departamentos', [AdminController::class, 'listarDepartamentos']);
         Route::get('/admin/roles', [AdminController::class, 'listarRoles']);
@@ -33,3 +45,6 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])
     ->middleware(['signed'])
     ->name('verification.verify');
+
+Route::post('/recuperar-password', [AuthController::class, 'solicitarRecuperacion']);
+Route::post('/restablecer-password', [AuthController::class, 'restablecerPassword']);
