@@ -47,4 +47,5 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])
     ->name('verification.verify');
 
 Route::post('/recuperar-password', [AuthController::class, 'solicitarRecuperacion']);
+Route::post('/verificar-codigo', [AuthController::class, 'verificarCodigo']);
 Route::post('/restablecer-password', [AuthController::class, 'restablecerPassword']);

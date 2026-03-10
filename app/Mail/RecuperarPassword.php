@@ -12,15 +12,15 @@ class RecuperarPassword extends Mailable {
     use Queueable, SerializesModels;
 
     public string $nombreUsuario;
-    public string $linkRecuperacion;
+    public string $codigo;
 
-    public function __construct(string $nombreUsuario, string $linkRecuperacion) {
+    public function __construct(string $nombreUsuario, string $codigo) {
         $this->nombreUsuario = $nombreUsuario;
-        $this->linkRecuperacion = $linkRecuperacion;
+        $this->codigo = $codigo;
     }
 
     public function envelope(): Envelope {
-        return new Envelope(subject: 'Recuperar contraseña - Happy Community');
+        return new Envelope(subject: 'Código de verificación - Happy Community');
     }
 
     public function content(): Content {
